@@ -15,6 +15,8 @@ use App\Models\User;
 use App\Service\CurlService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
+
 /**
  * User: qinfuxing
  * Date: 2026/1/16
@@ -74,5 +76,22 @@ class ProfileController extends Controller
 
         $result =  app(CurlService::class)->callThirdApi('/','get',[],[]);
         return $result;
+    }
+
+    public function log(Request $request){
+        $layer_height = $request->input('layer_height');
+        if(in_array(0.2,["0.4","0.20","0.8","0.20"])){
+           $layer_height = round($layer_height/2,1);
+           echo $layer_height;
+        }else{
+            echo "2222";
+        }
+
+        Log::channel('api')->info('hello world');
+        return $this->success('hello world');
+    }
+
+    public function  user($id,$action){
+        return $this->success(['id' => $id,'action' => $action]);
     }
 }
